@@ -19,17 +19,7 @@ public class CommonImporter : AssetPostprocessor
     /// <param name="tex"></param>
     void OnPostprocessTexture(Texture2D texure)
     {
-        //Texture2D tex = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Object)) as Texture2D;
-        //string path = AssetDatabase.GetAssetPath(tex);
-        //TextureImporter teximp = AssetImporter.GetAtPath(path) as TextureImporter;
-        //if (tex.name.Contains("mon_"))
-        //{
-        //    teximp.mipmapEnabled = true;
-        //    teximp.textureType = TextureImporterType.Default;
-        //    teximp.textureCompression = TextureImporterCompression.Compressed;
-        //    teximp.isReadable = false;
-        //    AssetDatabase.Refresh();
-        //}
+
     }
     /// <summary>
     /// 模型导入前设置
@@ -51,7 +41,6 @@ public class CommonImporter : AssetPostprocessor
     /// <param name="g"></param>
     void OnPostprocessModel(GameObject g)
     {
-       //CommonTools.CommonEditorTools.CompressAnimationClip(g);
     }
 
     /// <summary>

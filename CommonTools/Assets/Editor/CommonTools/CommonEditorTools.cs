@@ -342,7 +342,7 @@ namespace CommonTools
             Object[] textures = GetSelectedTextures();
             foreach (Texture2D tex in textures)
             {
-                SetTexTextureType(tex,type);
+                SetTexTextureType(tex, type);
             }
         }
 
@@ -461,44 +461,7 @@ namespace CommonTools
         }
         #endregion
 
-        #region common fuctions
-        public static void DebugKeyValue(string key, string value)
-        {
-            Debug.LogError(string.Format("{0} = {1}", key, value));
-        }
-
-        public static void OpenFolder(string openPath)
-        {
-            if (Directory.Exists(openPath))
-                System.Diagnostics.Process.Start(openPath, openPath);
-        }
-
-        //存在当前文件夹下所有的对应后缀的子物体。
-        static List<string> files = new List<string>(1000);
-
-        public static void GetAllFiles(string path)
-        {
-            files.Clear();
-            CollectAllFiles(path);
-        }
-
-        public static void CollectAllFiles(string path)
-        {
-            string[] localfiles = Directory.GetFiles(path);
-            string[] dirs = Directory.GetDirectories(path);
-
-            for (int i = 0; i < localfiles.Length; i++)
-            {
-                string filepath = localfiles[i];
-                if (filepath.Contains(".meta")) continue;
-                files.Add(filepath);
-            }
-            for (int j = 0; j < dirs.Length; j++)
-            {
-                CollectAllFiles(dirs[j]);
-            }
-        }
-
+        #region 动画
         /// <summary>
         ///压缩动画，数值的精度改为3位
         ///去掉scale曲线
@@ -560,6 +523,45 @@ namespace CommonTools
                 {
                     Debug.LogError(string.Format("CompressAnimationClip Failed !!! animationPath : {0} error: {1}", "  ", e));
                 }
+            }
+        }
+        #endregion
+
+        #region common fuctions
+        public static void DebugKeyValue(string key, string value)
+        {
+            Debug.LogError(string.Format("{0} = {1}", key, value));
+        }
+
+        public static void OpenFolder(string openPath)
+        {
+            if (Directory.Exists(openPath))
+                System.Diagnostics.Process.Start(openPath, openPath);
+        }
+
+        //存在当前文件夹下所有的对应后缀的子物体。
+        static List<string> files = new List<string>(1000);
+
+        public static void GetAllFiles(string path)
+        {
+            files.Clear();
+            CollectAllFiles(path);
+        }
+
+        public static void CollectAllFiles(string path)
+        {
+            string[] localfiles = Directory.GetFiles(path);
+            string[] dirs = Directory.GetDirectories(path);
+
+            for (int i = 0; i < localfiles.Length; i++)
+            {
+                string filepath = localfiles[i];
+                if (filepath.Contains(".meta")) continue;
+                files.Add(filepath);
+            }
+            for (int j = 0; j < dirs.Length; j++)
+            {
+                CollectAllFiles(dirs[j]);
             }
         }
         #endregion
