@@ -4,7 +4,7 @@ using UnityEditor;
 
 public class SceneMinimapEditor : MonoBehaviour {
 
-    [MenuItem("GameObject/小地图生成", false, 0)]
+    [MenuItem("AssetsTools/小地图生成", false, 0)]
     public static void MinimapTool()
     {
         GameObject cameraobj = new GameObject("camera");

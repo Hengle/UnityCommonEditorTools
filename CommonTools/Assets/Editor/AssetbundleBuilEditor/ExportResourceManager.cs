@@ -59,13 +59,14 @@ public class PubAssetRecord
 public class ExportResourceManager : EditorWindow
 {
     static ExportResourceInfo[] exportinfos;
-    static string ExporInfoAssetpath = "/Editor/ExportInfo.txt";
+    static string ExporInfoAssetpath = "/Editor/AssetbundleBuilEditor/ExportInfo.txt";
 
-    [MenuItem("Export/ExportResource")]
+    [MenuItem("ExportAssetbundle/ExportResource")]
     public static void ExportResourceWindow()
     {
         InitialExportInfo();
         var window = EditorWindow.GetWindow(typeof(ExportResourceManager)) as ExportResourceManager;
+        window.minSize = new Vector2(800, 300);
         window.Show();
     }
 
@@ -136,6 +137,7 @@ public class ExportResourceManager : EditorWindow
     }
     private static byte[] GetDataBaseBytes(string textName)
     {
+
         return System.IO.File.ReadAllBytes(Application.dataPath + ExporInfoAssetpath);
     }
 
@@ -219,7 +221,7 @@ public class ExportResourceManager : EditorWindow
         DrawSeparator();
         if (GUILayout.Button("一键导出资源", GUILayout.Width(120f)))
         {
-            AssetBundleBuildNew.BuildAssetBundlesNew(EditorUserBuildSettings.activeBuildTarget);
+            AssetBundleBuildEditor.BuildAssetBundlesNew(EditorUserBuildSettings.activeBuildTarget);
         }
         GUILayout.EndScrollView();
     }
@@ -255,7 +257,7 @@ public class ExportResourceManager : EditorWindow
         Selection.objects = selectedObjects.ToArray();
         CheckPubResource(dependencyfilters, SetnameMimRef, exportrootpath, needOpen);
         SetAssetbundlePrefix(exportrootpath);
-        AssetBundleBuildNew.SetAssetBundleName();
+        AssetBundleBuildEditor.SetAssetBundleName();
         RemoveUnusedAssetbundleName(publicsNames, relatedAssetbundleName);
     }
     public static void SetAssetbundlePrefix(string exportrootpath)
@@ -263,22 +265,22 @@ public class ExportResourceManager : EditorWindow
         switch (exportrootpath)
         {
             case "character":
-                AssetBundleBuildNew.SetAssetbundlepreCharacter();
+                AssetBundleBuildEditor.SetAssetbundlepreCharacter();
                 break;
             case "particle":
-                AssetBundleBuildNew.SetAssetbundlepreParticle();
+                AssetBundleBuildEditor.SetAssetbundlepreParticle();
                 break;
             case "texture":
-                AssetBundleBuildNew.SetAssetbundlepretexure();
+                AssetBundleBuildEditor.SetAssetbundlepretexure();
                 break;
             case "scene":
-                AssetBundleBuildNew.SetAssetbundleprescenee();
+                AssetBundleBuildEditor.SetAssetbundleprescenee();
                 break;
             case "audio":
-                AssetBundleBuildNew.SetAssetbundlepreaudio();
+                AssetBundleBuildEditor.SetAssetbundlepreaudio();
                 break;
             case "cutsce":
-                AssetBundleBuildNew.SetAssetbundleprecutscene();
+                AssetBundleBuildEditor.SetAssetbundleprecutscene();
                 break;
         }
     }
@@ -520,7 +522,7 @@ public class ExportResourceManager : EditorWindow
             GUI.color = Color.white;
         }
     }
-    [MenuItem("Export/ExportResourcePC")]
+    //[MenuItem("Export/ExportResourcePC")]
     public static void ExportPC()
     {
         ExportByType(0);
@@ -546,15 +548,15 @@ public class ExportResourceManager : EditorWindow
         }
         if (type == 0)
         {
-            AssetBundleBuildNew.BuildAssetBundlesNew(BuildTarget.StandaloneWindows, false);
+            AssetBundleBuildEditor.BuildAssetBundlesNew(BuildTarget.StandaloneWindows, false);
         }
         else if (type == 1)
         {
-            AssetBundleBuildNew.BuildAssetBundlesNew(BuildTarget.Android, false);
+            AssetBundleBuildEditor.BuildAssetBundlesNew(BuildTarget.Android, false);
         }
         else if (type == 2)
         {
-            AssetBundleBuildNew.BuildAssetBundlesNew(BuildTarget.iOS, false);
+            AssetBundleBuildEditor.BuildAssetBundlesNew(BuildTarget.iOS, false);
         }
     }
 }

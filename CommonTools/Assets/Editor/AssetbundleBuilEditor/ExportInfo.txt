@@ -1,5 +1,5 @@
 Index,resourcePath,extensions1,extensions2,extensions3,extensions4,extensions5,exportrootpath,filter1,filter2,filter3,filter4,filter5,SetName Min PubRef,是否根据公用数量
 1,/character/Prefabs,.prefab,,,,,character,.mat,.anim,.fbx,,,2
-2,/SceneFolder/Scenes/Scenes,.unity,,,,,scene,.fbx,.mat,.anim,,,6
-3,/particle/all_eff,.prefab,,,,,particle,.anim,.mat,.fbx,,,10
+2,/SceneFolder/Scenes/Scenes,.unity,,,,,scene,.fbx,.mat,.anim,,,2
+3,/particle/all_eff,.prefab,,,,,particle,.anim,.mat,.fbx,,,2
 4,/audio,.ogg,.mp3,,,,audio,,,,,,2

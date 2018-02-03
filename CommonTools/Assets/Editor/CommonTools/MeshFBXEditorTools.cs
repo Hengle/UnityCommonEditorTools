@@ -16,18 +16,20 @@ namespace CommonTools
             {
                 string relatepath = AssetDatabase.GetAssetPath(folds[iii]);
                 string folderpath = Path.GetFullPath(relatepath);
-                CommonEditorTools.GetAllFiles(folderpath.Replace("\\", "/").Replace(Application.dataPath, "Assets"));
-                for (int i = 0; i < CommonEditorTools.files.Count; i++)
+                AssetsSearch assetSearch = new ModelSearch(folderpath.Replace("\\", "/").Replace(Application.dataPath, "Assets"));
+                assetSearch.Search();
+                for (int i = 0; i < assetSearch.Assets.Count; i++)
                 {
-                    if (!Path.GetExtension(CommonEditorTools.files[i]).Equals(".FBX"))
+                    string filepath = assetSearch.Assets[i];
+                    if (!Path.GetExtension(filepath).Equals(".FBX"))
                         continue;
-                    ModelImporter assets = AssetImporter.GetAtPath(CommonEditorTools.files[i]) as ModelImporter;
+                    ModelImporter assets = AssetImporter.GetAtPath(filepath) as ModelImporter;
                     if (assets == null)
                     {
-                        Debug.LogError("assetimport is null" + CommonEditorTools.files[i]);
+                        Debug.LogError("assetimport is null" + filepath);
                         continue;
                     }
-                    if (CommonEditorTools.files[i].Contains("@"))
+                    if (filepath.Contains("@"))
                     {
                         assets.isReadable = false;
                         assets.importMaterials = false;

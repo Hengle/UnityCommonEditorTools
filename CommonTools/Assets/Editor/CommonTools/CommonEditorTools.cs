@@ -97,32 +97,6 @@ namespace CommonTools
                 System.Diagnostics.Process.Start(openPath, openPath);
         }
 
-        //存在当前文件夹下所有的对应后缀的子物体。
-        public static List<string> files = new List<string>(1000);
-
-        public static void GetAllFiles(string path)
-        {
-            files.Clear();
-            CollectAllFiles(path);
-        }
-
-        public static void CollectAllFiles(string path)
-        {
-            string[] localfiles = Directory.GetFiles(path);
-            string[] dirs = Directory.GetDirectories(path);
-
-            for (int i = 0; i < localfiles.Length; i++)
-            {
-                string filepath = localfiles[i];
-                if (filepath.Contains(".meta")) continue;
-                files.Add(filepath);
-            }
-            for (int j = 0; j < dirs.Length; j++)
-            {
-                CollectAllFiles(dirs[j]);
-            }
-        }
-
         /// <summary>
         /// 替换Prefab
         /// </summary>

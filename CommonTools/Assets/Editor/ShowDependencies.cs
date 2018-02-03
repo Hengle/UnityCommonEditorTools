@@ -12,7 +12,7 @@ public class ShowDependencies : EditorWindow
 {
     private Vector2 scrollPos;
 
-    [MenuItem("Assets/Show Dependencies")]
+    //[MenuItem("Assets/Show Dependencies")]
     public static void Init()
     {
         GetWindow<ShowDependencies>();
@@ -33,7 +33,7 @@ public class ShowDependencies : EditorWindow
     static string[] WhiteShaderList = new string[] { "Shader Forge" };
     public static Dictionary<string, Shader> shaderList = new Dictionary<string, Shader>();
 
-    [MenuItem("Tools/SearchShaders")]
+    [MenuItem("AssetsTools/SearchShaders")]
     public static void SearchShaders()
     {
         shaderList.Clear();
@@ -64,7 +64,7 @@ public class ShowDependencies : EditorWindow
         }
     }
 
-    [MenuItem("Tools/ReplacePrefabBuildInShader")]
+    [MenuItem("AssetsTools/ReplacePrefabBuildInShader")]
     public static void ReplaceBuildInShader()
     {
         var prefabs = Selection.objects;
@@ -102,7 +102,7 @@ public class ShowDependencies : EditorWindow
     public static List<string> DeleteFolders = new List<string>() {"Materials"};
     public static List<string> DeleteDirParentFolders = new List<string>() { "Prefabs", "prefabs" };
     public static List<string> FolderToDelete = new List<string>();
-    [MenuItem("Tools/DeletRedundantResources")]
+    [MenuItem("AssetsTools/DeletRedundantResources")]
     public static void DeletRedundantResources()
     {
         foreach (var parent in DeleteParentFolders)
@@ -131,7 +131,7 @@ public class ShowDependencies : EditorWindow
             RecursiveSelectFolders(dir, searchFilters);
         }
     }
-    [MenuItem("Tools/CheckEmptyPrefabAssetbundleName")]
+    [MenuItem("AssetsTools/CheckEmptyPrefabAssetbundleName")]
     public static void CheckPrefabAssetbundleName()
     {
         string path = AssetDatabase.GetAssetPath(Selection.activeObject);
@@ -162,7 +162,7 @@ public class ShowDependencies : EditorWindow
             RecursiveSelectChildren(dir);
         }
     }
-    [MenuItem("Tools/FindStandardShader")]
+    [MenuItem("AssetsTools/FindStandardShader")]
     public static void FindStandardShader()
     {
         List<Object> selects = new List<Object>();
@@ -190,7 +190,7 @@ public class ShowDependencies : EditorWindow
     }
 
     static List<Object> publics = new List<Object>();
-    [MenuItem("Assets/CheckPublicResource")]
+    [MenuItem("AssetsTools/CheckPublicResource")]
     public static void CheckPubResource()
     {
         publics.Clear();

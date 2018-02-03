@@ -9,17 +9,17 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AssetBundleBuildNew : MonoBehaviour
+public class AssetBundleBuildEditor : MonoBehaviour
 {
     public static string AssetbundlePrefix;
     public static bool isUI = false;
-    const string SetAssetbundlePrefix_character = "BuildAssetbundle/character";
-    const string SetAssetbundlePrefix_particles = "BuildAssetbundle/particle";
-    const string SetAssetbundlePrefix_texture = "BuildAssetbundle/texture";
-    const string SetAssetbundlePrefix_scene = "BuildAssetbundle/scene";
-    const string SetAssetBundlePrefix_audio = "BuildAssetbundle/audio";
-    const string SetAssetBundlePrefix_cutscene = "BuildAssetbundle/cutsce";
-    const string SetAssetBundlePrefix_shader = "BuildAssetbundle/shader";
+    const string SetAssetbundlePrefix_character = "ExportAssetbundle/BuildAssetbundle/character";
+    const string SetAssetbundlePrefix_particles = "ExportAssetbundle/BuildAssetbundle/particle";
+    const string SetAssetbundlePrefix_texture = "ExportAssetbundle/BuildAssetbundle/texture";
+    const string SetAssetbundlePrefix_scene = "ExportAssetbundle/BuildAssetbundle/scene";
+    const string SetAssetBundlePrefix_audio = "ExportAssetbundle/BuildAssetbundle/audio";
+    const string SetAssetBundlePrefix_cutscene = "ExportAssetbundle/BuildAssetbundle/cutsce";
+    const string SetAssetBundlePrefix_shader = "ExportAssetbundle/BuildAssetbundle/shader";
 
     public static readonly string ABDirPC = "assetbundles";
     public static readonly string ABDirAndroid = "assetbundles_android";
@@ -152,40 +152,40 @@ public class AssetBundleBuildNew : MonoBehaviour
 
     //打包资源
     const string uimenu = "BuildAssetbundle/Build UI";
-    [MenuItem("BuildAssetbundle/Build UI")]
+    //[MenuItem("BuildAssetbundle/Build UI")]
     public static void SetBuilModeUI()
     {
        
     }
-    [MenuItem(uimenu)]
+    //[MenuItem(uimenu)]
     public static void ToggleSimulateAssetBundle()
     {
         isUI = !isUI;
     }
 
-    [MenuItem(uimenu, true)]
+    //[MenuItem(uimenu, true)]
     public static bool ToggleSimulateAssetBundleValidate()
     {
         Menu.SetChecked(uimenu, isUI);
         return true;
     }
-    [MenuItem("BuildAssetbundle/Build AssetBundles PC 5")]
+    [MenuItem("ExportAssetbundle/Build AssetBundles PC")]
     static public void BuildAssetBundlesPC()
     {
         BuildAssetBundlesNew(BuildTarget.StandaloneWindows);
     }
-    [MenuItem("BuildAssetbundle/Build AssetBundles Andriod 5")]
+    [MenuItem("ExportAssetbundle/Build AssetBundles Andriod")]
     static public void BuildAssetBundlesAndriod()
     {
         BuildAssetBundlesNew(BuildTarget.Android);
     }
 
-    [MenuItem("BuildAssetbundle/Build AssetBundles IOS 5")]
+    [MenuItem("ExportAssetbundle/Build AssetBundles IOS")]
     static public void BuildAssetBundlesIOS()
     {
         BuildAssetBundlesNew(BuildTarget.iOS);
     }
-    [MenuItem("BuildAssetbundle/DeleteManifest")]
+    //[MenuItem("BuildAssetbundle/DeleteManifest")]
     static public void DeleteManifest()
     {
         files.Clear();
@@ -199,7 +199,7 @@ public class AssetBundleBuildNew : MonoBehaviour
                 File.Delete(file);
         }
     }
-    [MenuItem("BuildAssetbundle/DeleteManifestInStreammingAsset")]
+    //[MenuItem("BuildAssetbundle/DeleteManifestInStreammingAsset")]
     static public void DeleteManifestInStreammingAsset()
     {
         files.Clear();
@@ -230,7 +230,7 @@ public class AssetBundleBuildNew : MonoBehaviour
                 return null;
         }
     }
-    [MenuItem("Assets/CheckbackSpace")]
+    [MenuItem("AssetsTools/CheckbackSpace")]
     public static void CheckSpaceBack()
     {
         Object[] objects = Selection.objects;
@@ -243,7 +243,7 @@ public class AssetBundleBuildNew : MonoBehaviour
         Selection.objects = objectss.ToArray();
     }
 
-    [MenuItem("Assets/SetAssetBundleName")]
+    [MenuItem("AssetsTools/SetAssetBundleName")]
     public static void SetAssetBundleName()
     {
         if (string.IsNullOrEmpty(AssetbundlePrefix))
@@ -317,7 +317,7 @@ public class AssetBundleBuildNew : MonoBehaviour
             Recursive(dir);
         }
     }
-    [MenuItem("Assets/RemoveAssetBundleName")]
+    [MenuItem("AssetsTools/RemoveAssetBundleName")]
     public static void RemoveAssetBundleName()
     {
         Object[] objects = Selection.objects;
@@ -329,7 +329,7 @@ public class AssetBundleBuildNew : MonoBehaviour
         }
         // 		AssetImporter.GetAtPath (AssetDatabase.GetAssetPath (Selection.activeObject)).assetBundleName = null;
     }
-    [MenuItem("BuildAssetbundle/RemoveAssetBundleNameInTheFile")]
+    //[MenuItem("BuildAssetbundle/RemoveAssetBundleNameInTheFile")]
     public static void RemoveAssetBundleNameInTheFile()
     {
         var select = Selection.activeObject;
@@ -346,7 +346,7 @@ public class AssetBundleBuildNew : MonoBehaviour
         files.Clear();
     }
 
-    [MenuItem("BuildAssetbundle/检测一个AssetbundleName是否多用")]
+    //[MenuItem("BuildAssetbundle/检测一个AssetbundleName是否多用")]
     public static void CheckMultiUsedAssetbundleName()
     {
         string[] allAssetbundleNames = AssetDatabase.GetAllAssetBundleNames();
@@ -374,7 +374,7 @@ public class AssetBundleBuildNew : MonoBehaviour
         if (!Directory.Exists(outputPath))
             Directory.CreateDirectory(outputPath);
         Debug.Log("输出路径" + outputPath);
-        BuildPipeline.BuildAssetBundles(outputPath, 0, platform);
+        BuildPipeline.BuildAssetBundles(outputPath, BuildAssetBundleOptions.ChunkBasedCompression, platform);
         if (needOpen)
         {
             Debug.LogError("导出结束");
@@ -396,8 +396,6 @@ public class AssetBundleBuildNew : MonoBehaviour
                 return ABDirPC;
             case BuildTarget.StandaloneOSXIntel:
             case BuildTarget.StandaloneOSXIntel64:
-            case BuildTarget.StandaloneOSX:
-                return "AssetBundle5/OSX/";
             // Add more build targets for your own.
             // If you add more targets, don't forget to add the same platforms to GetPlatformFolderForAssetBundles(RuntimePlatform) function.
             default:
