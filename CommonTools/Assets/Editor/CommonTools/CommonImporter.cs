@@ -41,6 +41,10 @@ public class CommonImporter : AssetPostprocessor
     /// <param name="g"></param>
     void OnPostprocessModel(GameObject g)
     {
+        //CommonTools.CommonEditorTools.CompressAnimationClip(g);
+        ModelImporter model = (ModelImporter)assetImporter;
+        string path = model.assetPath;
+        CommonTools.MeshFBXEditorTools.HandleDeleteFbxMaterials(g);
     }
 
     /// <summary>

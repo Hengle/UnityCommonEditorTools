@@ -43,5 +43,37 @@ namespace CommonTools
             }
             AssetDatabase.Refresh();
         }
+
+        /// <summary>
+        /// 置空FBX上默认材质球引用的Shader
+        /// </summary>
+        /// <param name="model"></param>
+        public static void HandleDeleteFbxMaterials(GameObject model)
+        {
+            Renderer[] renders = model.GetComponentsInChildren<Renderer>();
+            if (null != renders)
+            {
+                foreach (Renderer render in renders)
+                {
+                    render.sharedMaterials = new Material[render.sharedMaterials.Length];
+                }
+            }
+        }
+        /// <summary>
+        /// 重新导入所有的FBX文件
+        /// </summary>
+        [MenuItem("CommonTools/FBX/重新导入所有的Mesh文件来删除StandardShader")]
+        public static void ReImPortAllFbxFiles()
+        {
+            string[] allassets = AssetDatabase.GetAllAssetPaths();
+            foreach (var assetpath in allassets)
+            {
+                if (Path.GetExtension(assetpath).Equals(".FBX") || Path.GetExtension(assetpath).Equals(".obj"))
+                {
+                    AssetDatabase.ImportAsset(assetpath, ImportAssetOptions.Default);
+                    Debug.LogError(assetpath);
+                }
+            }
+        }
     }
 }

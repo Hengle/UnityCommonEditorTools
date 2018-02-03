@@ -391,14 +391,12 @@ public class AssetBundleBuildNew : MonoBehaviour
                 return ABDirAndroid;
             case BuildTarget.iOS:
                 return ABDirIphone;
-            case BuildTarget.WebPlayer:
-                return "AssetBundle5/WebPlayer/";
             case BuildTarget.StandaloneWindows:
             case BuildTarget.StandaloneWindows64:
                 return ABDirPC;
             case BuildTarget.StandaloneOSXIntel:
             case BuildTarget.StandaloneOSXIntel64:
-            case BuildTarget.StandaloneOSXUniversal:
+            case BuildTarget.StandaloneOSX:
                 return "AssetBundle5/OSX/";
             // Add more build targets for your own.
             // If you add more targets, don't forget to add the same platforms to GetPlatformFolderForAssetBundles(RuntimePlatform) function.

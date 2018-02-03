@@ -122,6 +122,17 @@ namespace CommonTools
                 CollectAllFiles(dirs[j]);
             }
         }
+
+        /// <summary>
+        /// 替换Prefab
+        /// </summary>
+        /// <param name="obj"></param>
+        public static void ReplaceSelectPrefab(GameObject obj)
+        {
+            Object prefab = PrefabUtility.GetPrefabParent(obj);
+            string path = AssetDatabase.GetAssetPath(prefab);
+            PrefabUtility.ReplacePrefab(obj, prefab);
+        }
         #endregion
     }
 }
