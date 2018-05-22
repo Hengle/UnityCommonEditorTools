@@ -515,11 +515,6 @@ namespace CommonTools
 
             texture.SetPixels(pixels);
             EditorUtility.CompressTexture(texture, TextureFormat.RGB565, TextureCompressionQuality.Best);
-
-            string path = AssetDatabase.GetAssetPath(texture);
-            TextureImporter teximp = AssetImporter.GetAtPath(path) as TextureImporter;
-            teximp.isReadable = false;
-            AssetDatabase.ImportAsset(path);
         }
 
         static string GetDitherTexturePath(string srcPath, int type)
