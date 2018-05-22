@@ -13,10 +13,6 @@ public class CommonImporter : AssetPostprocessor
         TextureImporter tImporter = assetImporter as TextureImporter;
         if (!assetPath.Contains("_dither"))
             tImporter.isReadable = false;
-        else
-        {
-            tImporter.isReadable = true;
-        }
     }
     /// <summary>
     /// 贴图倒入之后
