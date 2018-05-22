@@ -11,7 +11,12 @@ public class CommonImporter : AssetPostprocessor
     void OnPreprocessTexture()
     {
         TextureImporter tImporter = assetImporter as TextureImporter;
-        tImporter.isReadable = false;
+        if (!assetPath.Contains("_dither"))
+            tImporter.isReadable = false;
+        else
+        {
+            tImporter.isReadable = true;
+        }
     }
     /// <summary>
     /// 贴图倒入之后
@@ -19,7 +24,15 @@ public class CommonImporter : AssetPostprocessor
     /// <param name="tex"></param>
     void OnPostprocessTexture(Texture2D texure)
     {
-
+        if (!assetPath.Contains("_dither"))
+            return;
+        else
+        {
+            if (assetPath.Contains("_RGBA"))
+                CommonTools.TextureEditorTools.OptimizeRGBA(texure);
+            else if (assetPath.Contains("_RGB"))
+                CommonTools.TextureEditorTools.OptimizeRGB(texure);
+        }
     }
     /// <summary>
     /// 模型导入前设置
