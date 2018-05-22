@@ -200,9 +200,14 @@ namespace CommonTools
                 if (texture != null)
                 {
                     string srcPath = AssetDatabase.GetAssetPath(texture);
-                    string newPath = GetDitherTexturePath(srcPath,1);
+                    string newPath = GetDitherTexturePath(srcPath, 1);
                     AssetDatabase.CopyAsset(srcPath, newPath);
                     AssetDatabase.Refresh();
+                    Texture2D newTex = AssetDatabase.LoadAssetAtPath(newPath, typeof(Texture2D)) as Texture2D;
+                    TextureImporter texImport = AssetImporter.GetAtPath(newPath) as TextureImporter;
+                    texImport.isReadable = true;
+                    texImport.SaveAndReimport();
+                    OptimizeRGBA(newTex);
                 }
             }
         }
@@ -219,6 +224,12 @@ namespace CommonTools
                     string newPath = GetDitherTexturePath(srcPath, 2);
                     AssetDatabase.CopyAsset(srcPath, newPath);
                     AssetDatabase.Refresh();
+                    Texture2D newTex = AssetDatabase.LoadAssetAtPath(newPath, typeof(Texture2D)) as Texture2D;
+                    TextureImporter texImport = AssetImporter.GetAtPath(newPath) as TextureImporter;
+                    texImport.isReadable = true;
+                    texImport.SaveAndReimport();
+                    OptimizeRGB(newTex);
+
                 }
             }
         }
@@ -429,6 +440,7 @@ namespace CommonTools
 
             texture.SetPixels(pixels);
             EditorUtility.CompressTexture(texture, TextureFormat.RGBA4444, TextureCompressionQuality.Best);
+            SaveOptimizedTextureToPNG(texture);
         }
 
         public static void OptimizeRGB(Texture2D texture)
@@ -515,6 +527,53 @@ namespace CommonTools
 
             texture.SetPixels(pixels);
             EditorUtility.CompressTexture(texture, TextureFormat.RGB565, TextureCompressionQuality.Best);
+            SaveOptimizedTextureToPNG(texture);
+        }
+
+
+        private static void SaveOptimizedTextureToPNG(Texture2D rt)
+        {
+            string path = AssetDatabase.GetAssetPath(rt);
+            byte[] bytes = rt.EncodeToPNG();
+            FileStream file = File.Open(System.IO.Path.GetDirectoryName(Application.dataPath) + "/" + path, FileMode.Create);
+            BinaryWriter writer = new BinaryWriter(file);
+            writer.Write(bytes);
+            file.Close();
+            AssetDatabase.Refresh();
+
+            bool isRGBA = false;
+            if (path.Contains("_RGBA")) isRGBA = true;
+
+            TextureImporter texImport = AssetImporter.GetAtPath(path) as TextureImporter;
+            texImport.isReadable = false;
+            texImport.mipmapEnabled = false;
+            texImport.wrapMode = TextureWrapMode.Clamp;
+            texImport.npotScale = TextureImporterNPOTScale.None;
+            if (isRGBA)
+                texImport.alphaIsTransparency = true;
+            PlatformFormatSetting(path, texImport, "Standalone");
+            PlatformFormatSetting(path, texImport, "Android");
+            PlatformFormatSetting(path, texImport, "iPhone");
+            texImport.SaveAndReimport();
+            AssetDatabase.Refresh();
+        }
+
+        static void PlatformFormatSetting(string path, TextureImporter texImporter, string platform)
+        {
+            bool isRGBA = false;
+            if (path.Contains("_RGBA")) isRGBA = true;
+            TextureImporterPlatformSettings settingPlatform = texImporter.GetPlatformTextureSettings(platform);
+            settingPlatform.overridden = true;
+            if (isRGBA)
+            {
+                if (platform == "Standalone")
+                    settingPlatform.format = TextureImporterFormat.ARGB16;
+                else
+                    settingPlatform.format = TextureImporterFormat.RGBA16;
+            }
+            else
+                settingPlatform.format = TextureImporterFormat.RGB16;
+            texImporter.SetPlatformTextureSettings(settingPlatform);
         }
 
         static string GetDitherTexturePath(string srcPath, int type)
