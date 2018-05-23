@@ -71,5 +71,33 @@ namespace CommonTools
                 }
             }
         }
+
+        /// <summary>
+        /// 处理fbx中的动画
+        /// </summary>
+        public static void HandleProcessAnimationFbx(ModelImporter fbxModel, string fileName, string assetpath)
+        {
+            ModelImporterClipAnimation[] curClips = fbxModel.clipAnimations;
+            ModelImporterClipAnimation[] clips = fbxModel.defaultClipAnimations;
+            if (((curClips.Length == 0 && clips.Length == 1) || curClips.Length == 1) && fileName.Contains("_") && assetpath.IndexOf("SealModel") == -1)
+            {
+                string[] splitFbxName = fileName.Split('_');
+                if (splitFbxName.Length == 2)
+                {
+                    List<ModelImporterClipAnimation> actions = new List<ModelImporterClipAnimation>();
+                    ModelImporterClipAnimation animation = fbxModel.defaultClipAnimations[0];
+                    string clipName = splitFbxName[1];
+                    animation.takeName = clipName;
+                    animation.name = clipName;
+                    if (clipName == "walk" || clipName == "idle" || clipName == "yun")
+                    {
+                        animation.loopTime = true;
+                    }
+                    actions.Add(animation);
+                    fbxModel.clipAnimations = actions.ToArray();
+                }
+            }
+        }
+
     }
 }
